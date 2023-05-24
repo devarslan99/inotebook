@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User')
 const { body, validationResult } = require('express-validator');
-
+const bcrypt=require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const JWT_SECRET="arslanisgooddeveloper";
 
 //create a user using post:/api/auth/createuser  -no login require
 
@@ -23,9 +25,10 @@ router.post('/createuser', [
   }
 
 
-  //check whether the user with this email exist already
+  
 
   try {
+    //check whether the user with this email exist already
     let user = await User.findOne({ email: req.body.email });
 
     if (user) {
@@ -33,13 +36,15 @@ router.post('/createuser', [
       return res.status(400).json({ error: "sorry the user with this email already exist" });
     }
 
+    const pass=req.body.password;
+    const salt = await bcrypt.genSalt(10);
+    const secpass=await bcrypt.hash(pass, salt)
 
-    
     ///create a new user 
     user = await User.create({
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password
+      password: secpass
 
     })
 
@@ -47,8 +52,14 @@ router.post('/createuser', [
     //  .catch(err=>{console.log(err)
     //  res.json({error:'please enter unique email',message:err.message})});
 
-    // res.send(req.body);
-    res.json(user);
+    
+    const data={
+      user:{
+        id:user.id
+      }
+    }
+    var authtoken = jwt.sign(data, JWT_SECRET);
+    res.json({authtoken});
 
   } catch (error) {
 

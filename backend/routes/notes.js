@@ -61,12 +61,15 @@ router.post('/addnote', fetchuser, [
 })
 
 
-// Route:2 create a note using post:/api/notes/addnote  -login required
+// Route:3 create a note using post:/api/notes/addnote  -login required
 
 router.put('/updatenote/:id', fetchuser, async (req, res) => {
 
 
     const {title,description,tag}=req.body;
+    try {
+        
+    
     // create a new note Object
     const newNote={};
     if(title){newNote.title=title};
@@ -82,7 +85,45 @@ router.put('/updatenote/:id', fetchuser, async (req, res) => {
     }
     note=await Note.findByIdAndUpdate(req.params.id,{$set:newNote},{new:true});
     res.json({note});
+} catch (error) {
 
+    console.log(error.message)
+    ///if there is any kind of error 
+    res.status(500).send("internal server error");
+
+
+}
 })
 
+
+
+
+// Route:4 delete a note using DELETE:/api/notes/deletenote  -login required
+
+router.delete('/deletenote/:id', fetchuser, async (req, res) => {
+
+try {
+    
+
+   
+    let note= await Note.findById(req.params.id);
+    if(!note){return res.status(401).send("Not found")};
+
+    if(note.user.toString()!==req.user.id){
+
+        return res.status(401).send("Not found");
+
+    }
+    note=await Note.findByIdAndDelete(req.params.id);
+    res.json({"success":"the note has been delete",note:note});
+
+} catch (error) {
+
+    console.log(error.message)
+    ///if there is any kind of error 
+    res.status(500).send("internal server error");
+
+
+}
+})
 module.exports = router

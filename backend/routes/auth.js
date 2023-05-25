@@ -5,8 +5,9 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = "arslanisgooddeveloper";
+const fetchuser=require('../middleware/fetchuser')
 
-//create a user using post:/api/auth/createuser  -no login require
+// Route:1 create a user using post:/api/auth/createuser  -no login required
 
 router.post('/createuser', [
   body('name', 'Enter a valid name').isLength({ min: 3 }),
@@ -48,11 +49,7 @@ router.post('/createuser', [
 
     })
 
-    //  .then(user=>res.json(user))
-    //  .catch(err=>{console.log(err)
-    //  res.json({error:'please enter unique email',message:err.message})});
-
-
+   
     const data = {
       user: {
         id: user.id
@@ -72,7 +69,7 @@ router.post('/createuser', [
 
 
 
-//create a user using post:/api/auth/createuser  -no login require
+  //Route:2 login user with post:/api/auth/login  -no login required
 
 
 
@@ -128,4 +125,26 @@ router.post('/login', [
   }
 
 })
+
+
+
+  //Route:3 get loggedin user detail with post:/api/auth/getuser -login required
+
+ 
+
+
+  router.post('/getuser',fetchuser, async (req, res) => {
+  
+    //if there are errors then return bad request and errors also
+    try {
+      
+      userId=req.user.id;
+      const user=await User.findById(userId).select("-password")
+      res.send(user)
+    } catch (error) {
+      console.log(error.message);
+      return res.status(500).send("interval server error");
+    }
+  })
+
 module.exports = router

@@ -4,26 +4,57 @@ import noteContext from "./noteContext";
 
 const NoteState = (props) => {
 
-    const s1 = {
-        "name": "arslan",
-        "age": 23
-    }
-    const [state, setstate] = useState(s1);
+     const notesinitial=[
+        {
+          "_id": "646f0d700e793e3b4a26266a",
+          "user": "646df801f05ce815712dcb7f",
+          "title": "political crises",
+          "description": "ik arrested and banned to jail beajj ksdjhsue jjdsjdksdsdsdddd",
+          "tag": "pk",
+          "date": "2023-05-25T07:25:36.469Z",
+          "__v": 0
+        },
+        {
+            "_id": "646f0d700e793e3b4a26266a",
+            "user": "646df801f05ce815712dcb7f",
+            "title": "political crises",
+            "description": "ik arrested and banned to jail beajj ksdjhsue jjdsjdksdsdsdddd",
+            "tag": "pk",
+            "date": "2023-05-25T07:25:36.469Z",
+            "__v": 0
+          },
+          {
+            "_id": "646f0d700e793e3b4a26266a",
+            "user": "646df801f05ce815712dcb7f",
+            "title": "political crises",
+            "description": "ik arrested and banned to jail beajj ksdjhsue jjdsjdksdsdsdddd",
+            "tag": "pk",
+            "date": "2023-05-25T07:25:36.469Z",
+            "__v": 0
+          },
+          {
+            "_id": "646f0d700e793e3b4a26266a",
+            "user": "646df801f05ce815712dcb7f",
+            "title": "political crises",
+            "description": "ik arrested and banned to jail beajj ksdjhsue jjdsjdksdsdsdddd",
+            "tag": "pk",
+            "date": "2023-05-25T07:25:36.469Z",
+            "__v": 0
+          },
+          {
+            "_id": "646f0d700e793e3b4a26266a",
+            "user": "646df801f05ce815712dcb7f",
+            "title": "political crises",
+            "description": "ik arrested and banned to jail beajj ksdjhsue jjdsjdksdsdsdddd",
+            "tag": "pk",
+            "date": "2023-05-25T07:25:36.469Z",
+            "__v": 0
+          },
+      ];
 
-   const update=()=>{
-
-    setInterval(() => {
-          setstate({
-            "name": "ayaan",
-            "age": 12
-          });
-
-
-    }, 1000);
-   }
-
+const [notes, setnotes] = useState(notesinitial)
     return (
-        <noteContext.Provider value={{state:state,update:update}}>
+        <noteContext.Provider value={{notes,setnotes}}>
 
             {props.children}
 

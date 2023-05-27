@@ -74,7 +74,10 @@ const editNote=(id)=>{
 }
 //delete note
 const deleteNote=(id)=>{
+  console.log("Deleting the note with id"  + id);
 
+  const newnotes=notes.filter((note)=>{ return note._id!==id});
+  setnotes(newnotes);
 }
 
 const [notes, setnotes] = useState(notesinitial)

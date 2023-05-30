@@ -79,10 +79,11 @@ router.post('/login', [
 
 ], async (req, res) => {
 
+  let success=false;
   //if there are errors then return bad request and errors also
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ success,errors: errors.array() });
 
   }
 
@@ -95,13 +96,13 @@ router.post('/login', [
 
     if (!user) {
 
-      return res.status(400).json({ error: "please enter valid credentials" });
+      return res.status(400).json({ error: "please enter valid credentialssss" });
     }
 
 
     const passwordcompare =await bcrypt.compare(password, user.password);
     if (!passwordcompare) {
-      return res.status(400).json({ error: "please enter valid credentials" });
+      return res.status(400).json({ success,error: "please enter valid credentials1" });
     }
 
 
@@ -112,8 +113,10 @@ router.post('/login', [
         id: user.id
       }
     }
+    
     var authtoken = jwt.sign(data, JWT_SECRET);
-    res.json({ authtoken });
+    let success=true;
+    res.json({ success,authtoken });
 
 
 

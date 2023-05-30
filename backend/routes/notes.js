@@ -11,7 +11,6 @@ router.get('/fetchallnotes', fetchuser, async (req, res) => {
         const notes = await Note.find({ user: req.user.id });
         res.send(notes);
 
-        res.json([])
     } catch (error) {
         console.log(error.message)
         ///if there is any kind of error 

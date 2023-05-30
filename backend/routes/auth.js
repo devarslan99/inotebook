@@ -17,11 +17,12 @@ router.post('/createuser', [
 ], async (req, res) => {
 
   //if there are errors then return bad request and errors also
+  let success=false;
   const errors = validationResult(req);
 
 
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ success,errors: errors.array() });
 
   }
 
@@ -34,7 +35,7 @@ router.post('/createuser', [
 
     if (user) {
 
-      return res.status(400).json({ error: "sorry the user with this email already exist" });
+      return res.status(400).json({success, error: "sorry the user with this email already exist" });
     }
 
     const pass = req.body.password;
@@ -56,7 +57,8 @@ router.post('/createuser', [
       }
     }
     var authtoken = jwt.sign(data, JWT_SECRET);
-    res.json({ authtoken });
+    let success=true;
+    res.json({success,authtoken });
 
   } catch (error) {
 
@@ -96,7 +98,7 @@ router.post('/login', [
 
     if (!user) {
 
-      return res.status(400).json({ error: "please enter valid credentialssss" });
+      return res.status(400).json({ success,error: "please enter valid credentialssss" });
     }
 
 

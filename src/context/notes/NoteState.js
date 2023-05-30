@@ -42,7 +42,8 @@ const NoteState = (props) => {
       body: JSON.stringify({ title, description, tag })
     });
 
-
+const json=await response.json();
+console.log(json);
 
     ////////////logic
     const note = {
@@ -65,7 +66,7 @@ const NoteState = (props) => {
 
     /////////api
     const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjQ2ZGY4MDFmMDVjZTgxNTcxMmRjYjdmIn0sImlhdCI6MTY4NDk5MDg4NX0.fSw62UABJrZ4ZZX-4u34w61VFeaL2rTCBtuzwa9p6Mo"
@@ -74,22 +75,25 @@ const NoteState = (props) => {
     });
 
 
+    const json=await response.json();
+    console.log(json);
 
 
-
-
+let newnotess=JSON.parse(JSON.stringify(notes));
     //////////////logic
-    for (let index = 0; index < notes.length; index++) {
+    for (let index = 0; index < newnotess.length; index++) {
 
-      const element = notes[index];
-      if (element._id == id) {
-        element.title = title;
-        element.description = description;
-        element.tag = tag
-
+      const element = newnotess[index];
+      if (element._id === id) {
+        newnotess[index].title = title;
+        newnotess[index].description = description;
+        newnotess[index].tag = tag
+        break;
       }
 
+
     }
+    setnotes(newnotess);
   }
 
 
